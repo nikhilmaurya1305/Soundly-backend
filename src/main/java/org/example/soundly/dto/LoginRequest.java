@@ -1,4 +1,4 @@
-package org.example.soundly.DTO;
+package org.example.soundly.dto;
 
 import lombok.Data;
 

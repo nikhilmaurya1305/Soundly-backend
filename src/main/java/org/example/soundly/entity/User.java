@@ -1,4 +1,4 @@
-package org.example.soundly.Entity;
+package org.example.soundly.entity;
 
 
 import jakarta.persistence.*;
@@ -15,7 +15,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String Username;
+    private String username;
     @Column(unique=true)
     private String email;
     private String password;

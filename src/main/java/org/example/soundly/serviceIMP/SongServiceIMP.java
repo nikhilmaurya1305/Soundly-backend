@@ -1,6 +1,7 @@
 package org.example.soundly.serviceIMP;
 
 import lombok.RequiredArgsConstructor;
+import org.example.soundly.dto.SongResponse;
 import org.example.soundly.entity.Song;
 import org.example.soundly.repository.SongRepository;
 import org.example.soundly.service.SongService;
@@ -9,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -54,5 +57,50 @@ public class SongServiceIMP implements SongService {
             e.printStackTrace();
             throw new RuntimeException("Failed to upload song", e);
         }
+    }
+
+    @Override
+    public List<SongResponse> getAllSongs() {
+        return songRepository.findAll()
+                .stream()
+                .map(song -> SongResponse.builder()
+                        .id(song.getId())
+                        .title(song.getTitle())
+                        .artist(song.getArtist())
+                        .genre(song.getGenre())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Song getSongById(long id){
+        return songRepository.findById(id).orElseThrow(() -> new RuntimeException("Song not found"));
+    }
+
+    @Override
+    public void deleteSong(long id){
+
+        Song song = songRepository.findById(id).orElseThrow(() -> new RuntimeException("Song not found"));
+
+        File file = new File(song.getFilePath());
+
+        if(file.exists()){
+            file.delete();
+        }
+        songRepository.delete(song);
+    }
+
+    @Override
+    public List<SongResponse> searchSongs(String title){
+        return songRepository
+                .findByTitleContainingIgnoreCase(title)
+                .stream()
+                .map(song -> SongResponse.builder()
+                        .id(song.getId())
+                        .title(song.getTitle())
+                        .artist(song.getArtist())
+                        .genre(song.getGenre())
+                        .build())
+                .toList();
     }
 }

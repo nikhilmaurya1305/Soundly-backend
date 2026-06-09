@@ -29,7 +29,9 @@ public class SecurityConfig {
 
         http
                 .csrf(csrf -> csrf.disable())
+
                 .authorizeHttpRequests(auth -> auth
+
                         .requestMatchers(
                                 "/auth/register",
                                 "/auth/login"
@@ -37,19 +39,19 @@ public class SecurityConfig {
                         .permitAll()
 
                         .requestMatchers(
-                                "/songs/upload",
-                                "/songs/delete/**"
-                        )
-                        .hasRole("ADMIN")
-
-                        .requestMatchers(
                                 "/songs/**"
                         )
-                        .hasAnyRole("USER","ADMIN")
+                        .hasAnyRole("USER", "ADMIN")
+
+                        .requestMatchers(
+                                "/playlists/**"
+                        )
+                        .hasAnyRole("USER", "ADMIN")
 
                         .anyRequest()
                         .authenticated()
                 )
+
                 .addFilterBefore(
                         jwtFilter,
                         UsernamePasswordAuthenticationFilter.class

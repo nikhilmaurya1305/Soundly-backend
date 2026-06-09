@@ -49,6 +49,11 @@ public class SongController {
         return songService.searchSongs(title);
     }
 
+    @GetMapping("/byGenre")
+    public List<SongResponse> getSongsByGenre(@RequestParam String genre) {
+        return songService.searchSongsByGenre(genre);
+    }
+
     @DeleteMapping("/{id}")
     public String deleteSong(@PathVariable long id) {
         songService.deleteSong(id);

@@ -8,13 +8,19 @@ import java.util.List;
 
 public interface SongService {
 
-    String uploadSong(String title, String artist, String genre, MultipartFile file);
+    String uploadSong(
+            String title,
+            String artist,
+            String genre,
+            MultipartFile file);
 
     List<SongResponse> getAllSongs();
 
     Song getSongById(long id);
 
-    void deleteSong(long id);
+    String deleteSong(Long songId);
 
     List<SongResponse> searchSongs(String title);
+
+    List<SongResponse> searchSongsByGenre(String genre);
 }

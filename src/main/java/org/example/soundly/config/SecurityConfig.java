@@ -32,10 +32,21 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/auth/register",
-                                "/auth/login",
-                                "/songs/upload"
+                                "/auth/login"
                         )
                         .permitAll()
+
+                        .requestMatchers(
+                                "/songs/upload",
+                                "/songs/delete/**"
+                        )
+                        .hasRole("ADMIN")
+
+                        .requestMatchers(
+                                "/songs/**"
+                        )
+                        .hasAnyRole("USER","ADMIN")
+
                         .anyRequest()
                         .authenticated()
                 )

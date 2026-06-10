@@ -13,4 +13,6 @@ public class SongResponse {
     private String title;
     private String artist;
     private String genre;
+    private long likes;
+    private long dislikes;
 }

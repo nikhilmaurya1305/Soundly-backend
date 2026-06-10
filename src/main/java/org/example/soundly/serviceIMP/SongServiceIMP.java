@@ -1,9 +1,11 @@
 package org.example.soundly.serviceIMP;
 
 import lombok.RequiredArgsConstructor;
+import org.example.soundly.Enum.ReactionType;
 import org.example.soundly.Enum.Role;
 import org.example.soundly.dto.SongResponse;
 import org.example.soundly.entity.Song;
+import org.example.soundly.repository.SongReactionRepository;
 import org.example.soundly.repository.SongRepository;
 import org.example.soundly.service.SongService;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,8 @@ public class SongServiceIMP implements SongService {
     private final SongRepository songRepository;
 
     private final UserRepository userRepository;
+
+    private final SongReactionRepository songReactionRepository;
 
     @Override
     public String uploadSong(
@@ -96,15 +100,33 @@ public class SongServiceIMP implements SongService {
 
     @Override
     public List<SongResponse> getAllSongs() {
+
         return songRepository.findAll()
                 .stream()
-                .map(song -> SongResponse.builder()
-                        .id(song.getId())
-                        .title(song.getTitle())
-                        .artist(song.getArtist())
-                        .genre(song.getGenre())
-                        .build())
-                .collect(Collectors.toList());
+                .map(song -> {
+
+                    long likes =
+                            songReactionRepository
+                                    .countBySongIdAndReactionType(
+                                            song.getId(),
+                                            ReactionType.LIKE);
+
+                    long dislikes =
+                            songReactionRepository
+                                    .countBySongIdAndReactionType(
+                                            song.getId(),
+                                            ReactionType.DISLIKE);
+
+                    return SongResponse.builder()
+                            .id(song.getId())
+                            .title(song.getTitle())
+                            .artist(song.getArtist())
+                            .genre(song.getGenre())
+                            .likes(likes)
+                            .dislikes(dislikes)
+                            .build();
+                })
+                .toList();
     }
 
     @Override

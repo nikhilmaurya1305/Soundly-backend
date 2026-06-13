@@ -28,6 +28,7 @@ public class SecurityConfig {
             HttpSecurity http) throws Exception {
 
         http
+                .cors(cors -> {})
                 .csrf(csrf -> csrf.disable())
 
                 .authorizeHttpRequests(auth -> auth
@@ -41,7 +42,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/songs/**"
                         )
-                        .hasAnyRole("USER", "ADMIN")
+                        .permitAll()
 
                         .requestMatchers(
                                 "/playlists/**"

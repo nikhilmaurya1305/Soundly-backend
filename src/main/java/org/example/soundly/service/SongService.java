@@ -16,7 +16,7 @@ public interface SongService {
 
     List<SongResponse> getAllSongs();
 
-    Song getSongById(long id);
+    Song getSongById(Long id);
 
     String deleteSong(Long songId);
 

@@ -12,4 +12,5 @@ public interface SongReactionService {
     String removeReaction(Long songId);
 
     List<SongResponse> getLikedSongs();
+
 }

@@ -7,6 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class PlaylistResponse {
-    private long id;
+    private Long id;
     private String name;
 }

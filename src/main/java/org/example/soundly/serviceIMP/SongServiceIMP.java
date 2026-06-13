@@ -130,7 +130,7 @@ public class SongServiceIMP implements SongService {
     }
 
     @Override
-    public Song getSongById(long id){
+    public Song getSongById(Long id){
         return songRepository.findById(id).orElseThrow(() -> new RuntimeException("Song not found"));
     }
 

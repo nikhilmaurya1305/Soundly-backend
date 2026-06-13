@@ -1,9 +1,7 @@
 package org.example.soundly.entity;
 
-
 import jakarta.persistence.*;
 import lombok.*;
-import org.example.soundly.Enum.Role;
 
 @Entity
 @Getter
@@ -11,15 +9,20 @@ import org.example.soundly.Enum.Role;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+@Builder
+public class Comment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String username;
-    @Column(unique=true)
-    private String email;
-    private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    private String content;
+
+    @ManyToOne
+    @JoinColumn(name="song_id")
+    private Song song;
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
 }
